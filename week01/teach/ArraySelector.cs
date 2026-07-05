@@ -11,6 +11,29 @@ public static class ArraySelector
 
     private static int[] ListSelector(int[] list1, int[] list2, int[] select)
     {
-        return [];
+        // implement the ListSelector method
+        //The function takes two arrays and a selector array. The two arrays are combined together into a new array according to the selector array. The selector array only contains 1's and 2's. A value of 1 means that you should select the next number from the first array. A value of 2 means that you should select the next number from the second array.
+        // need to track list 1 and list2 index
+        // loop the select array
+
+        int[] result = new int[select.Length];
+        int index1 = 0;
+        int index2 = 0;
+
+        for (int i = 0; i < select.Length; i++)
+        {
+            if (select[i] == 1)
+            {
+                result[i] = list1[index1];
+                index1++;
+            }
+            else if (select[i] == 2)
+            {
+                result[i] = list2[index2];
+                index2++;
+            }
+        }
+
+        return result;
     }
 }
