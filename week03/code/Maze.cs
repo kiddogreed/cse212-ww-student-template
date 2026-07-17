@@ -33,6 +33,18 @@ public class Maze
     public void MoveLeft()
     {
         // FILL IN CODE
+        // Get the valid directions for our current coordinate (x, y)
+        bool[] directions = _mazeMap[(_currX, _currY)];
+        // Index 0 represents 'left'
+        if (directions[0])
+        {
+            _currX -= 1;
+        }
+        else
+        { 
+            //following comment instructions: If there is a wall, then throw an InvalidOperationException with the message "Can't go that way!".
+            throw new InvalidOperationException("Can't go that way!");
+        }
     }
 
     /// <summary>
@@ -42,6 +54,19 @@ public class Maze
     public void MoveRight()
     {
         // FILL IN CODE
+        // Get the valid directions for our current coordinate (x, y)
+        bool[] directions = _mazeMap[(_currX, _currY)];
+
+        // Index 1 represents 'right'
+        if (directions[1])
+        {
+            _currX += 1;
+        }
+        else
+        {
+            // same as above instruction
+            throw new InvalidOperationException("Can't go that way!");
+        }
     }
 
     /// <summary>
@@ -51,6 +76,19 @@ public class Maze
     public void MoveUp()
     {
         // FILL IN CODE
+        // Get the valid directions for our current coordinate (x, y)
+        bool[] directions = _mazeMap[(_currX, _currY)];
+
+        // Index 2 represents 'up'
+        if (directions[2])
+        {
+            _currY -= 1;
+        }
+        else
+        {
+            // same as previous instruction
+            throw new InvalidOperationException("Can't go that way!");
+        }
     }
 
     /// <summary>
@@ -60,6 +98,19 @@ public class Maze
     public void MoveDown()
     {
         // FILL IN CODE
+        // Get the valid directions for our current coordinate (x, y)
+        bool[] directions = _mazeMap[(_currX, _currY)];
+        
+        // Index 3 represents 'down'
+        if (directions[3])
+        {
+            _currY += 1;
+        }
+        else
+        {
+            // same as always, throw exception if there is a wall
+            throw new InvalidOperationException("Can't go that way!");
+        }
     }
 
     public string GetStatus()

@@ -1,7 +1,7 @@
 ﻿public class DuplicateCounter
 {
     //Count how many duplicates are in a collection of data.
-
+    // 183 duplicates
     public static void Run()
     {
         int[] data = [
