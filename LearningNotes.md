@@ -40,9 +40,38 @@ This week, I implemented collection data structures (`HashSet` and `Dictionary`)
 
 
 
-week 2
-
-
+## Week 02
 
 Stack - LIFO
 Queue - FIFO
+
+
+
+# Week 04 Activity Summary: Linked Lists
+
+## Overview
+This week, I implemented core operations for a doubly linked list structure (`LinkedList`) in C#. I focused on managing bi-directional pointer references (`_head`, `_tail`, `Next`, and `Prev`) while maintaining optimal time complexities: $O(1)$ for insertion and deletion at list boundaries, and $O(n)$ for search, replacement, and traversal operations.
+
+---
+
+## What I Did & How I Fixed It
+
+### Problem 1: Appending End Nodes (`InsertTail`)
+* **What I Did:** Constructed an insertion function to append new data elements directly to the end of the doubly linked list in $O(1)$ constant time.
+* **How I Fixed It:** Created a new `Node` instance and checked for an empty list state (`_head is null`). For empty lists, both `_head` and `_tail` were mapped to the new node. For existing lists, linked the current `_tail.Next` to the new node, pointed `newNode.Prev` back to `_tail`, and updated `_tail` to refer to the new node.
+
+### Problem 2: Tail Node Removal (`RemoveTail`)
+* **What I Did:** Developed a boundary removal algorithm to clear the final node from the list while preventing dangling pointers or null reference exceptions.
+* **How I Fixed It:** Evaluated single-element or empty list conditions using `_head == _tail` to safely reset both references to null. For multi-node lists, updated `_tail.Prev.Next` to null to detach the final node before shifting `_tail` backward to point to `_tail.Prev`.
+
+### Problem 3: Value-Based Node Deletion (`Remove`)
+* **What I Did:** Implemented a targeted search and delete procedure that locates the first occurrence of a specific value and decouples its node from the list chain.
+* **How I Fixed It:** Iterated through the list starting at `_head`. Integrated delegate execution for boundary nodes by calling `RemoveHead()` or `RemoveTail()` when matching on `_head` or `_tail`. For middle nodes, bridged the surrounding links by setting `curr.Prev.Next = curr.Next` and `curr.Next.Prev = curr.Prev`, exiting early via `return` immediately upon first match removal.
+
+### Problem 4: Global Value Substitution (`Replace`)
+* **What I Did:** Built a search and update routine that scans the entire data structure to substitute all instances of `oldValue` with `newValue`.
+* **How I Fixed It:** Traversed the sequence linearly from `_head` to `_tail` using a while loop. Updated node values directly via `curr.Data = newValue` without modifying node pointer references (`Next`/`Prev`), allowing continuous iteration across the entire list to replace all occurrences.
+
+### Problem 5: Reverse Traversal Iteration (`Reverse`)
+* **What I Did:** Built a custom reverse iterator using C#'s `yield return` state engine to allow backwards iteration across the collection using `foreach` loops.
+* **How I Fixed It:** Patterned the generator logic after `GetEnumerator()`, but reversed direction by initializing `curr` at `_tail`. Used a `while (curr is not null)` loop to `yield return curr.Data`, stepping backward through the collection on each iteration using `curr = curr.Prev`.
