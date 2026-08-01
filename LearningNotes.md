@@ -1,10 +1,5 @@
-reference
-https://byui-cse.github.io/cse212-ww-course/index.html
-
-
-
 performance cheat sheet
-O(1)   <   O(log n)   <  O(n)   <   O(n log n)   <   O(n^2)   <   O(2^n)
+O(1)   <   O(log n)   <   O(n)   <   O(n log n)   <   O(n^2)   <   O(2^n)
 
 
 
@@ -75,3 +70,34 @@ This week, I implemented core operations for a doubly linked list structure (`Li
 ### Problem 5: Reverse Traversal Iteration (`Reverse`)
 * **What I Did:** Built a custom reverse iterator using C#'s `yield return` state engine to allow backwards iteration across the collection using `foreach` loops.
 * **How I Fixed It:** Patterned the generator logic after `GetEnumerator()`, but reversed direction by initializing `curr` at `_tail`. Used a `while (curr is not null)` loop to `yield return curr.Data`, stepping backward through the collection on each iteration using `curr = curr.Prev`.
+
+
+
+# Week 05 Activity Summary: Recursion
+
+## Overview
+This week, I focused on writing recursive algorithms in C# to solve problems by dividing them into smaller sub-problems. I practiced identifying base cases to terminate recursion safely, managing call stack depth, and applying optimization strategies like memoization to reduce time complexity from exponential $O(2^n)$ down to linear $O(n)$, alongside implementing search trees and backtracking algorithms.
+
+---
+
+## What I Did & How I Fixed It
+
+### Problem 1: Recursive Squares Sum (`SumSquaresRecursive`)
+* **What I Did:** Implemented a recursive accumulator to compute the sum of squares $1^2 + 2^2 + \dots + n^2$ without using any iterative loops.
+* **How I Fixed It:** Defined a clear terminating base case that returns `0` when $n \le 0$. Formulated the recursive step as `(n * n) + SumSquaresRecursive(n - 1)`, reducing $n$ by $1$ on each frame until reaching the base case.
+
+### Problem 2: Permutations Choose (`PermutationsChoose`)
+* **What I Did:** Formulated a recursive algorithm to generate all string permutations of a given length `size` using unique letters from a target pool.
+* **How I Fixed It:** Implemented a recursive branch-and-bound strategy using a base case that checks if `word.Length == size`. In the recursive step, iterated through available characters, detached the selected character from the pool via `.Remove(i, 1)`, and passed the updated substring and partial word into the next recursive call stack frame.
+
+### Problem 3: Staircase Climbing with Memoization (`CountWaysToClimb`)
+* **What I Did:** Calculated the total ways to climb $s$ stairs given 1-, 2-, or 3-step leaps, optimizing the calculation to handle large inputs efficiently.
+* **How I Fixed It:** Set up base cases for $s \le 0 \rightarrow 0$, $s=1 \rightarrow 1$, $s=2 \rightarrow 2$, and $s=3 \rightarrow 4$. Integrated dynamic memoization using a `Dictionary<int, decimal>` passed across recursive frames: checked if `remember.ContainsKey(s)` to return pre-computed cached values instantly, reducing runtime complexity from $O(3^n)$ to $O(n)$.
+
+### Problem 4: Wildcard Binary Patterns (`WildcardBinary`)
+* **What I Did:** Evaluated binary string patterns containing wildcard `'*'` characters and recursively generated all possible fully-resolved binary string permutations.
+* **How I Fixed It:** Located wildcards using `.IndexOf('*')`. Created a base case where an index of `-1` adds the completed binary string to `results`. For wildcards, sliced the string into prefix and suffix ranges using C# range syntax (`[..index]` and `[(index + 1)..]`), then executed two recursive branches replacing `'*'` with `'0'` and `'1'`.
+
+### Problem 5: Recursive Maze Pathfinding & Backtracking (`SolveMaze`)
+* **What I Did:** Constructed a depth-first search (DFS) pathfinder to navigate an $n \times n$ grid maze from $(0,0)$ to the destination node $(x,y)$ using spatial backtracking.
+* **How I Fixed It:** Pushed the current position tuple $(x, y)$ onto `currPath`. Check if `maze.IsEnd(x, y)` to add matching path strings to `results`. Loop through directional offset vectors (Right, Left, Down, Up) and validate moves using `maze.IsValidMove`. Applied a strict **backtracking step** (`currPath.RemoveAt(currPath.Count - 1)`) after exploring neighbors to unwind stack state cleanly.
