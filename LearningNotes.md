@@ -101,3 +101,34 @@ This week, I focused on writing recursive algorithms in C# to solve problems by 
 ### Problem 5: Recursive Maze Pathfinding & Backtracking (`SolveMaze`)
 * **What I Did:** Constructed a depth-first search (DFS) pathfinder to navigate an $n \times n$ grid maze from $(0,0)$ to the destination node $(x,y)$ using spatial backtracking.
 * **How I Fixed It:** Pushed the current position tuple $(x, y)$ onto `currPath`. Check if `maze.IsEnd(x, y)` to add matching path strings to `results`. Loop through directional offset vectors (Right, Left, Down, Up) and validate moves using `maze.IsValidMove`. Applied a strict **backtracking step** (`currPath.RemoveAt(currPath.Count - 1)`) after exploring neighbors to unwind stack state cleanly.
+
+
+
+# Week 06 Activity Summary: Trees
+
+## Overview
+This week, I implemented core operations for a Binary Search Tree (BST) structure in C# across `Node.cs`, `BinarySearchTree.cs`, and `Trees.cs`. I focused on recursive tree traversals, maintaining BST invariant properties, calculating tree height, enforcing unique values (Set behavior), and constructing balanced trees from sorted arrays in $O(n)$ time.
+
+---
+
+## What I Did & How I Fixed It
+
+### Problem 1: Insert Unique Values Only (`Node.cs`)
+* **What I Did:** Modified the node insertion algorithm to ignore duplicate values, ensuring the Binary Search Tree behaves like a mathematical Set containing unique keys.
+* **How I Fixed It:** Replaced the default `else` fallback—which previously routed duplicate values to the right branch—with an explicit `else if (value > Data)`. When `value == Data`, the function simply exits without making recursive calls or instantiating new nodes, preventing duplicates from entering the tree.
+
+### Problem 2: Recursive Value Search (`Node.cs`)
+* **What I Did:** Implemented a recursive `Contains` method to search for a target value in $O(\log n)$ average time complexity.
+* **How I Fixed It:** Defined a base case checking if `value == Data` to return `true`. For smaller or larger target values, checked if `Left` or `Right` child pointers were non-null before recursively calling `Contains(value)` down the appropriate subtree, returning `false` if an empty child spot (`null`) was reached.
+
+### Problem 3: Reverse Order Traversal (`BinarySearchTree.cs`)
+* **What I Did:** Implemented the `TraverseBackward` recursive yield-generator to traverse the tree in descending order (largest value down to smallest value), enabling custom `foreach` iteration.
+* **How I Fixed It:** Mirrored standard in-order traversal by visiting nodes in reverse order: recursively traversed the `Right` subtree first, yielded the current node's value (`yield return node.Data`), and then recursively traversed the `Left` subtree.
+
+### Problem 4: Recursive Tree Height Calculation (`Node.cs`)
+* **What I Did:** Constructed a recursive algorithm to measure the maximum height (depth) of any tree or subtree.
+* **How I Fixed It:** Evaluated the height of child branches using null-conditional access (`Left?.GetHeight() ?? 0` and `Right?.GetHeight() ?? 0`). Computed the overall node height using $1 + \max(\text{leftHeight}, \text{rightHeight})$, returning $1$ for a standalone root node with no children.
+
+### Problem 5: Balanced BST Construction from Sorted Array (`Trees.cs`)
+* **What I Did:** Developed the recursive `InsertMiddle` function to convert a sorted array into a fully balanced BST without creating dynamic array slices or requiring complex AVL rotation algorithms.
+* **How I Fixed It:** Used a divide-and-conquer strategy using `first` and `last` index boundaries. Computed the midpoint index `middle = (first + last) / 2` and inserted `sortedNumbers[middle]` into the BST. Then made two recursive calls—one for the left subarray (`first` to `middle - 1`) and one for the right subarray (`middle + 1` to `last`)—terminating when `first > last`.
